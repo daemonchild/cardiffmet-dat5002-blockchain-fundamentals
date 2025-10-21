@@ -1,0 +1,75 @@
+{
+    "api-info": {
+        "base-url": "https://blockchain.info",
+        "response-formats": [
+            "json",
+            "hex"
+        ],
+        "docsurl": "https://www.blockchain.com/explorer/api/blockchain_api",
+        "version": "Not Published",
+        "authentication": ["none"],
+        "this-json-updated": "21/10/2025"
+    },
+    "endpoints": {
+        "single-block": {
+            "route": "/rawblock/$block_hash",
+            "variable": "$block_hash",
+            "description": "Single Block"
+        },
+        "single-transaction": {
+            "route": "/rawtx/$tx_hash",
+            "variable": "$tx_hash",
+            "description": "Single Transaction"
+        },
+        "chart-data": {
+            "route": "/charts/$chart-type",
+            "variable": "$chart",
+            "description": "Chart Data"
+        },
+        "block-height": {
+            "route": "/block-height/$block_height",
+            "variable": "$block_height",
+            "description": "Block Height"
+        },
+        "single-address": {
+            "route": "/rawaddr/$bitcoin_address",
+            "variable": "$tx_hash",
+            "description": "Single Address"
+        },
+        "multi-address": {
+            "route": "/multiaddr?active=$address|$address",
+            "variable": "$address|$address",
+            "description": "Multi Address - Supply | separated string"
+        },
+        "unspent-outputs": {
+            "route": "/unspent?active=$address",
+            "variable": "$address",
+            "description": "Unspent Outputs - you are advised to RTFM"
+        },
+        "balance": {
+            "route": "/balance?active=$address",
+            "variable": "$address",
+            "description": "Balance"
+        },
+        "latest-block": {
+            "route": "/latestblock",
+            "variable": "null",
+            "description": "Balance"
+        },
+        "unconfirmed-transactions": {
+            "route": "/unconfirmed-transactions",
+            "variable": "null",
+            "description": "Unconfirmed Transactions"
+        },
+        "blocks-by-time": {
+            "route": "/blocks/$time_in_milliseconds",
+            "variable": "$time_in_milliseconds",
+            "description": "Blocks for one day"
+        },
+        "blocks-by-pool": {
+            "route": "/blocks/$pool_name",
+            "variable": "$pool_name",
+            "description": "Blocks for one day"
+        }
+    }
+}
