@@ -33,7 +33,7 @@
         },
         "single-address": {
             "route": "/rawaddr/$bitcoin_address",
-            "variable": "$tx_hash",
+            "variable": "$bitcoin_address",
             "description": "Single Address"
         },
         "multi-address": {
