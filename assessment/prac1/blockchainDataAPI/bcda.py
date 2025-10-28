@@ -87,11 +87,23 @@ class BlockchainComDataAPI:
                 if self.verbose:
                     print (Fore.RED)
                     print (f"{url} failed with {_result.status_code}" + Style.RESET_ALL)
-                return ({'status': 'data not retrieved'})
+                status = 'data not retrieved (code:' + _result.status_code
+                return ({'status': status})
         except:
             if self.verbose:
                 print (Fore.RED + "Failed" + Style.RESET_ALL)
             return ({'status': 'API failure'})
+
+
+    # Turn a list into chunks
+    # This is needed to avoid rate limiting restrictions
+    def __chunk_list(the_list, size=50):
+        return [the_list[i:i + size] for i in range(0, len(the_list), size)]
+
+    # Join a list together into a string using the pipe as a separator
+    # This is needed for passing to the 'multiple' endpoints
+    def __join_with_pipe (the_list):
+        return lambda the_list: "|".join(map(str, the_list))
 
 
     ### Public Method Functions
@@ -147,8 +159,23 @@ class BlockchainComDataAPI:
 
     def multi_address (self, addresses, output_format='json'):
         _endp = 'multi-address'
-        _uri = self.__encode_url (_endp, addresses, output_format)
-        return self.__fetch_from_api (_uri)
+
+        _return_list = []
+
+        # If we have more than 1 address, chunk them in fifties
+        if len(addresses) > 1:
+            _chunked_addresses = self.__chunk_list (addresses)
+            for _chunk in _chunked_addresses:
+                _address_string = self.__join_with_pipe(_chunk)
+                _uri = self.__encode_url (_endp, _chunked_addresses, output_format)
+                _response = self.__fetch_from_api (_uri)
+                _return_list.append(_response)
+            return _return_list
+
+        # If we have a single address, just ask for it
+        else:
+            _uri = self.__encode_url (_endp, addresses, output_format)
+            return self.__fetch_from_api (_uri)
 
 
     def unspent_outputs (self, address, output_format='json'):
@@ -159,8 +186,22 @@ class BlockchainComDataAPI:
 
     def balance (self, address, output_format='json'):
         _endp = 'balance'
-        _uri = self.__encode_url (_endp, address, output_format)
-        return self.__fetch_from_api (_uri)
+
+        _return_list = []
+
+        # If we have more than 1 address, chunk them in fifties
+        if len(address) > 1:
+            _chunked_addresses = self.__chunk_list (address)
+            for _chunk in _chunked_addresses:
+                _address_string = self.__join_with_pipe(_chunk)
+                _uri = self.__encode_url (_endp, _chunked_addresses, output_format)
+                _response = self.__fetch_from_api (_uri)
+                _return_list.append(_response)
+            return _return_list
+
+        else:
+            _uri = self.__encode_url (_endp, address, output_format)
+            return self.__fetch_from_api (_uri)
 
 
     def latest_block (self, output_format='json'):
