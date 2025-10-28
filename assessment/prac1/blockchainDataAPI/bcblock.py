@@ -78,10 +78,7 @@ class Block:
         return _mined_at
     
     def timestamp(self):
-        _timestamp = self.json['time']
-        _datetime = datetime.fromtimestamp(_timestamp)
-        _mined_at = _datetime.strftime("%Y%m%d-%H:%M")
-        return _mined_at
+        return self.json['time']
     
     def datetime(self):
         _timestamp = self.json['time']

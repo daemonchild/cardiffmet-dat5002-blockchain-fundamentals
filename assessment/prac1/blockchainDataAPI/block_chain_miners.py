@@ -3,6 +3,8 @@ import json
 import os
 from colorama import Fore, Back, Style
 
+# Reference: https://github.com/bitcoin-data/mining-pools/
+
 # Fetch the Mining Pool Data from GitHub and combine into a single json file
 def fetch_mining_pool_data(force=False):
 
