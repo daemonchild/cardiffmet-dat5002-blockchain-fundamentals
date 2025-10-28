@@ -1,23 +1,44 @@
+#  __  _____   ____   ___ ____  ___    ____ ____  _ _____           _____                    __                          
+# / _\/__   \ |___ \ / _ \___ \( _ )  | ___|___ \/ |___ /          /__   \___  _ __ ___     /__\ _____      ____ _ _ __  
+# \ \   / /\/   __) | | | |__) / _ \  |___ \ __) | | |_ \   _____    / /\/ _ \| '_ ` _ \   / \/// _ \ \ /\ / / _` | '_ \ 
+# _\ \ / /     / __/| |_| / __/ (_) |  ___) / __/| |___) | |_____|  / / | (_) | | | | | | / _  \ (_) \ V  V / (_| | | | |
+# \__/ \/     |_____|\___/_____\___/  |____/_____|_|____/           \/   \___/|_| |_| |_| \/ \_/\___/ \_/\_/ \__,_|_| |_|
+#                                                                                                                       
+#
+#  	Title:		            Bitcoin Miners
+#   Uses:                   https://github.com/bitcoin-data/mining-pools/
+#   Repo Accessed:          22/10/2025
+# 
+
 import requests
 import json
 import os
-from colorama import Fore, Back, Style
-
-# Reference: https://github.com/bitcoin-data/mining-pools/
+from datetime import datetime, timedelta
+from colorama import Fore, Style
 
 # Fetch the Mining Pool Data from GitHub and combine into a single json file
-def fetch_mining_pool_data(force=False):
+def fetch_mining_pool_data():
 
     _mining_pool_json_file = "mining_pools.json"
     
     _module_path = os.path.dirname(os.path.abspath(__file__))
     _filepath=_module_path + "/" + _mining_pool_json_file
 
-    # Only if the file does not exist and we are not forcing the rebuild
+    # Check whether the file exists, if so is it under a month old?
+    # If so, exit. Otherwise rebuild.
     if os.path.exists(_filepath):
-        if not force:
+        # get the date from the file
+        _json_data = load_mining_pool_data()
+        _file_date = datetime.strptime(_json_data['header']['date'], "%Y-%m-%d %H:%M:%S")
+
+        # Get current time
+        now = datetime.now()
+
+        # Check if the file is 30 days old, if not exit
+        if now - _file_date < timedelta(days=30):
             return
     
+    # Rebuild the mining pool data
     print (Fore.CYAN + "Wait! Getting Mining Pool Data" + Style.RESET_ALL)
     # GitHub API URL to list folder contents
     _api_url = f"https://api.github.com/repos/bitcoin-data/mining-pools/contents/pools?ref=master"
@@ -44,9 +65,18 @@ def fetch_mining_pool_data(force=False):
                     except json.JSONDecodeError:
                         print(f"Error decoding {_file['name']}")
 
+    # Add the date and time so we know when to update this
+    _wrapped_data = {
+    "header": {
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "generated_by": "Tom Rowan, ST20285213"
+        },
+        "mining_pools": _combined_data
+    }
+
     # Save combined result
     with open(_filepath, "w") as f:
-        json.dump(_combined_data, f, indent=4)
+        json.dump(_wrapped_data, f, indent=4)
 
 
 

@@ -98,7 +98,7 @@ class Block:
                 # Try to use the mining pool data to find a name for the miner
                 # Load mining pool data
                 _mining_pool_data=bcm.load_mining_pool_data()
-                _miner = bcm.search_miner_address(_addr, _mining_pool_data)
+                _miner = bcm.search_miner_address(_addr, _mining_pool_data['mining_pools'])
                 return (_miner + " [" + _addr + "]" )
             else:
                 return " Error: No addresses in coinbase transaction."
