@@ -53,7 +53,7 @@ class BlockchainComDataAPI:
             print(f"{Fore.RED}File {_filepath} not found.{Style.RESET_ALL}")
 
 
-    def __encode_url (self, endpoint, replace_value, output_format='json'):
+    def __encode_url (self, endpoint, replace_value, output_format='json', optional_param=''):
 
         # Replaces the requested token into the URL, also adding domain name and output format
         _route = self.api_config['endpoints'][endpoint]['route']
@@ -67,6 +67,8 @@ class BlockchainComDataAPI:
             print ("Swapping: ", _replace_token, replace_value)
 
         _url = (_base_url + _route + _format).replace(_replace_token, str(replace_value))
+        if optional_param:
+            _url = _url + "&" + optional_param
         return _url
     
 
@@ -118,7 +120,7 @@ class BlockchainComDataAPI:
         return self.__fetch_from_api (_uri)
 
 
-    def single_transaction (self, tx_hash, output_format='json'):
+    def single_transaction (self, tx_hash, offset=0, output_format='json'):
         _endp = 'single-transaction'
         _uri = self.__encode_url (_endp, tx_hash, output_format)
         return self.__fetch_from_api (_uri)
@@ -136,9 +138,9 @@ class BlockchainComDataAPI:
         return self.__fetch_from_api (_uri)
 
 
-    def single_address (self, bitcoin_address, output_format='json'):
+    def single_address (self, bitcoin_address, output_format='json', offset=0):
         _endp = 'single-address'
-        _uri = self.__encode_url (_endp, bitcoin_address, output_format)
+        _uri = self.__encode_url (_endp, bitcoin_address, output_format, optional_param="offset=" + str(offset))
         print (_uri)
         return self.__fetch_from_api (_uri)
 
