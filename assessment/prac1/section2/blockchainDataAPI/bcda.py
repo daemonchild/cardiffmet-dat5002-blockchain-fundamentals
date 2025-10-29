@@ -87,7 +87,6 @@ class BlockchainComDataAPI:
         try:
             if self.use_proxies:
                 _proxies = {'http': webproxies.get_random_proxy(self.proxy_list)}
-                print (_proxies)
                 _result = requests.get(url=url,proxies = _proxies)
             else:
                 _result = requests.get(url=url)
