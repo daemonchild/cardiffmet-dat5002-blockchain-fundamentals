@@ -142,8 +142,10 @@ class Block:
         _addresses = list(set(_addresses))
         return _addresses
 
-
-
+    # Truncated hash for printing
+    def trunc_hash(self):
+        return self['hash'][:4] + "..." + self['hash'][-4:]
+    
     # Functions to return various parameters from the block without processing
     def hash(self):
         return self.json['hash']
