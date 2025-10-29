@@ -3,7 +3,9 @@
 # \ \   / /\/   __) | | | |__) / _ \  |___ \ __) | | |_ \   _____    / /\/ _ \| '_ ` _ \   / \/// _ \ \ /\ / / _` | '_ \ 
 # _\ \ / /     / __/| |_| / __/ (_) |  ___) / __/| |___) | |_____|  / / | (_) | | | | | | / _  \ (_) \ V  V / (_| | | | |
 # \__/ \/     |_____|\___/_____\___/  |____/_____|_|____/           \/   \___/|_| |_| |_| \/ \_/\___/ \_/\_/ \__,_|_| |_|
-
+#
+# Block Chain Block Object
+#
 
 import json
 from datetime import datetime
@@ -20,13 +22,15 @@ class Block:
     # Init Constructor
     def __init__(self, hash, verbose=False):
 
+        # Is debug mode enabled?
         self.verbose = verbose
-
         self.__banner()
+
+        # Is it a valid hash?
         if (len(hash) == 64 and hash.startswith('0')):
 
             # Fetch the data from the BC API
-            _bc = bcda.BlockchainComDataAPI(verbose=False)
+            _bc = bcda.BlockchainComDataAPI(verbose=self.verbose)
             _result = _bc.single_block(hash)
 
             # Check for valid results
@@ -36,13 +40,11 @@ class Block:
                     print (Fore.GREEN + "initialised" + Style.RESET_ALL)
             else:
                 self.json = {}
-                if self.verbose:
-                    print (Fore.RED + "failed to initialise: API failure" + Style.RESET_ALL)
+                print (Fore.RED + "Failed to initialise: API failure" + Style.RESET_ALL)
     
         else:
             self.json = {}
-            if self.verbose:
-                print (Fore.RED + "failed to initialise using supplied hash!" + Style.RESET_ALL)
+            print (Fore.RED + "Failed to initialise using supplied hash!" + Style.RESET_ALL)
 
     # Return a printable string version of the block
     def __str__(self):
@@ -50,7 +52,7 @@ class Block:
     
     def __banner(self):
         if self.verbose:
-            print (Fore.CYAN + "Block object" + Style.RESET_ALL, end=" " )
+            print (Fore.CYAN + "Block object " + Style.RESET_ALL, end=" " )
     
     ### Functions
 
@@ -144,7 +146,7 @@ class Block:
 
     # Truncated hash for printing
     def trunc_hash(self):
-        return self['hash'][:4] + "..." + self['hash'][-4:]
+        return self.json['hash'][:4] + "..." + self.json['hash'][-4:]
     
     # Functions to return various parameters from the block without processing
     def hash(self):

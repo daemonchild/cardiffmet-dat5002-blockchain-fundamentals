@@ -14,8 +14,10 @@ import requests
 import json
 import time
 from datetime import datetime
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 import os
+
+from . import webproxies
 
 #                                                                                                                       
 #  	Blockchain API Object
@@ -25,8 +27,14 @@ class BlockchainComDataAPI:
 
     ### Functions to initialise the object
 
-    def __init__(self, verbose=False):
+    def __init__(self, verbose=False, use_proxies=True):
         self.api_config = self.__read_api_config()
+        
+        # Use random web proxies?
+        self.use_proxies = use_proxies
+        if use_proxies:
+            self.proxy_list = webproxies.fetch_proxy_list()                
+        
         self.verbose = verbose
         self.__banner()
 
@@ -77,7 +85,12 @@ class BlockchainComDataAPI:
         if self.verbose:
             print (Fore.CYAN + "Accessing API... " + Style.RESET_ALL, end=" ")
         try:
-            _result = requests.get(url=url)
+            if self.use_proxies:
+                _proxies = {'http': webproxies.get_random_proxy(self.proxy_list)}
+                print (_proxies)
+                _result = requests.get(url=url,proxies = _proxies)
+            else:
+                _result = requests.get(url=url)
 
             if (_result.status_code == 200):
                 if self.verbose:
