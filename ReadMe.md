@@ -6,6 +6,21 @@
 |**Course Ref:**| DAT5002_S2_25|
 |**Course Tutor:**| Dr. Ali Shahaab|
 
+## WRIT1 - Questions
+
+### Section 1 – Theoretical understanding of the functioning of Blockchain Technologies and its applications in different sectors. (20%)
+
+**Task 1.1 Briefly describe different types of DLTs and list their advantages and disadvantages. What
+network architectures and data structure topologies can be observed across the DLTs landscape?
+(5%)**
+
+**Task 1.2 What are the top 5 most frequently used consensus protocols in the DLT space (both
+permissioned and permissionless). Briefly explain the working of these protocols. (7%)**
+
+**Task 1.3 Identify three use cases of blockchain technology across different industries. Please include academic resources where possible. (8%)**
+
+
+
 ## PRAC1 - Questions
 
 ### Section 2 - Blockchain Data Analysis (1000 words) (35%)
