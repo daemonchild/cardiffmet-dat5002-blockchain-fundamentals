@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"solidity.compileUsingLocalVersion": "/usr/bin/solc",
+		"solidity.defaultCompiler": "localFile"
+	}
+}
