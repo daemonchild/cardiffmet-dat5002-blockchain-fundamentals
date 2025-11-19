@@ -1,0 +1,16 @@
+DAG
+https://www.geeksforgeeks.org/dsa/introduction-to-directed-acyclic-graph/
+Masterub op 554-555
+
+
+
+5Block Chain - limite dscaleability - page 545 mastering
+
+
+Reference: IOTA, Nano and Fantom, Hedera Hashgraph
+
+https://hedera.com/learning/hedera-hashgraph/what-is-gossip-about-gossip
+https://www.exp.science/thought-leadership/hashgraph-consensus-explained  
+
+
+
